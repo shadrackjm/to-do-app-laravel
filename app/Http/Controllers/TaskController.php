@@ -38,4 +38,40 @@ class TaskController extends Controller //control
         }
 
     }
+
+    //edit form
+    public function show($task_id)
+    {
+        $task = Task::find($task_id); //id == 1
+        // $task = Task::where('id',$id)->first(); //id == 1
+        return view("edit-task", compact("task"));
+    }
+
+    public function edit(Request $request)
+    {
+        try {
+            $task = Task::find($request->task_id);
+
+            $task->name = $request->task_name;
+            $task->description = $request->task_description;
+            $task->save();
+
+            return redirect("/")->with("success", "successfully updated the your task");
+        } catch (\Exception $exception) {
+            return redirect("/")->with("error", $exception->getMessage());
+        }
+
+    }
+
+    public function delete($task_id)
+    {
+        try {
+            $task = Task::find($task_id);
+            $task->delete();
+            return redirect("/")->with("success", "successfully deleted the your task");
+        } catch (\Exception $exception) {
+            return redirect("/")->with("error", $exception->getMessage());
+        }
+
+    }
 }
