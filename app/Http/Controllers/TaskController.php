@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 
 class TaskController extends Controller //control
 {
+    public function welcomepage(){
+        return view("welcome");
+    }
     public function home(Request $request)
     {
         $tasks = Task::all();
@@ -32,9 +35,9 @@ class TaskController extends Controller //control
             $task->description = $request->task_description;
             $task->save();
 
-            return redirect('/')->with("success", "task added successfully");
+            return redirect('/task/page')->with("success", "task added successfully");
         } catch (\Exception $exception) {
-            return redirect('/')->with("error", $exception->getMessage());
+            return redirect('/task/page')->with("error", $exception->getMessage());
         }
 
     }
@@ -56,9 +59,9 @@ class TaskController extends Controller //control
             $task->description = $request->task_description;
             $task->save();
 
-            return redirect("/")->with("success", "successfully updated the your task");
+            return redirect("/task/page")->with("success", "successfully updated the your task");
         } catch (\Exception $exception) {
-            return redirect("/")->with("error", $exception->getMessage());
+            return redirect("/task/page")->with("error", $exception->getMessage());
         }
 
     }
@@ -68,9 +71,9 @@ class TaskController extends Controller //control
         try {
             $task = Task::find($task_id);
             $task->delete();
-            return redirect("/")->with("success", "successfully deleted the your task");
+            return redirect("/task/page")->with("success", "successfully deleted the your task");
         } catch (\Exception $exception) {
-            return redirect("/")->with("error", $exception->getMessage());
+            return redirect("/task/page")->with("error", $exception->getMessage());
         }
 
     }

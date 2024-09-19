@@ -2,7 +2,7 @@
 @section('main')
     <div class="container">
         <div class="card">
-            <div class="card-header">Laravel To do App <a href="/load-form" class="btn btn-success btn-sm float-end">Add new</a></div>
+            <div class="card-header">Laravel To do App <a href="/load/form" class="btn btn-success btn-sm float-end">Add new</a></div>
             @if (Session::has('success'))
                 <span class="alert alert-success p-2">{{ Session::get('success') }}</span>
             @endif
