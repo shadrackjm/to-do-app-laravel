@@ -11,7 +11,7 @@
                 <div class="p-6 text-gray-900">
                     {{ __("You're logged in!") }}
 
-                    <a href="/task/page" class="btb btn-success float-end">GO TO USER LIST</a>
+                    <a href="/task/page" class="btn btn-primary float-end">GO TO USER LIST</a>
                 </div>
             </div>
         </div>
