@@ -1,19 +1,33 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TaskController;
+use Illuminate\Support\Facades\Route;
 
 
+//Route::get('/', function () {
+    //return view('welcome');
+//});
+Route::get('/', [TaskController::class, 'welcomepage']);
+Route::get('/task/page', [TaskController::class, 'home']);
 
-Route::get('/', [TaskController::class, 'home']);
-Route::get('/load-form', [TaskController::class, 'index']);
-//mvc
-// Route::post('/post-data', [TaskController::class,'store']);
-Route::post('/post-data', [TaskController::class, 'store'])->name('create-task');
+Route::get('/load/form', [TaskController::class, 'index']);
 
-//edit form
-Route::get('/edit/{task_id}', [TaskController::class, 'show']);
-
-Route::post('/update/task', [TaskController::class, 'edit'])->name('edit');
+Route::post('/load/form', [TaskController::class, 'store'])->name('create-task');
 
 Route::get('/delete/{id}', [TaskController::class, 'delete']);
+Route::get('/edit/{id}', [TaskController::class, 'show']);
+
+Route::post('/task/form', [TaskController::class, 'edit'])->name('edit');
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+require __DIR__.'/auth.php';
