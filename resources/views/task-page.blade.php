@@ -34,8 +34,10 @@
                                           </div>
                                         @endif --}}
                                         <div class="mb-3 form-check">
-                                            <input type="checkbox" onchange="" {{ $task->is_complete == 0 ? '' : 'checked'  }} class="form-check-input" id="exampleCheck1">
-                                          </div>
+                                            <input type="checkbox" onchange="updateTaskStatus(this, {{ $task->id }})" {{ $task->is_complete == 0 ? '' : 'checked' }} class="form-check-input" id="exampleCheck1">
+
+                                          
+                                        </div>
                                     </td>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $task->name }}</td>
@@ -59,22 +61,33 @@
             </div>
         </div>
     </div>
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-            ...
-            </div>
-            <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-        </div>
-        </div>
-    </div>
+    <!-- jquery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+    
+    function updateTaskStatus(checkbox, userId) {
+        const isChecked = $(checkbox).is(':checked');
+    
+        // Make an AJAX request to update the task status
+        $.ajax({
+            url: '/update-task-status', // Change to your actual URL
+            method: 'POST',
+            data: {
+                id: taskId,
+                is_complete: isChecked ? 1 : 0,
+                _token: '{{ csrf_token() }}' // Include CSRF token if using Laravel
+            },
+            success: function(response) {
+                // Handle success, maybe show a message
+                console.log('Task status updated:', response);
+            },
+            error: function(xhr) {
+                // Handle error
+                console.error('Error updating task status:', xhr);
+            }
+        });
+    }
+    
+        </script>
 @endsection

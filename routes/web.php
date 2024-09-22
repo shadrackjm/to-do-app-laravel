@@ -1,15 +1,21 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
+
 
 
 //Route::get('/', function () {
     //return view('welcome');
 //});
 Route::get('/', [TaskController::class, 'welcomepage']);
-Route::get('/task/page', [TaskController::class, 'home']);
+
+//Route::get('/task/page', [AuthenticatedSessionController::class, 'home'])->name('task.list');
+
+
+Route::get('/task/page', [TaskController::class, 'home'])->middleware(['auth', 'verified'])->name('task.list');
 
 Route::get('/load/form', [TaskController::class, 'index']);
 
@@ -29,5 +35,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::post('/update-task-status', [AuthenticatedSessionController::class, 'updateStatus']);
 
 require __DIR__.'/auth.php';
