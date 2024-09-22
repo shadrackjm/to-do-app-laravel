@@ -15,7 +15,8 @@ Route::get('/', [TaskController::class, 'welcomepage']);
 //Route::get('/task/page', [AuthenticatedSessionController::class, 'home'])->name('task.list');
 
 
-Route::get('/task/page', [TaskController::class, 'home'])->middleware(['auth', 'verified'])->name('task.list');
+Route::get('/task/page', [TaskController::class, 'home'])
+->middleware(['auth', 'verified'])->name('task.lists');
 
 Route::get('/load/form', [TaskController::class, 'index']);
 
