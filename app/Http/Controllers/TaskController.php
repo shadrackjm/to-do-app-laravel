@@ -15,7 +15,7 @@ class TaskController extends Controller //control
         $tasks = Task::where('user_id',auth()->user()->id)->get();
         return view("task-page", compact("tasks"));
         // return view("task-page",["tasks"=>$tasks]);
-    }
+     }
 
     public function index()
     {
