@@ -12,7 +12,7 @@ class TaskController extends Controller //control
         $tasks = Task::all();
         return view("task-page", compact("tasks"));
         // return view("task-page",["tasks"=>$tasks]);
-    }
+     }
 
     public function index()
     {
