@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller //control
 {
@@ -30,9 +31,11 @@ class TaskController extends Controller //control
         ]);
 
         try {
+            //create a new task and associate with a authenticated user
             $task = new Task();
             $task->name = $request->task_name;
             $task->description = $request->task_description;
+            $task->user_id = Auth::id(); //set user_id to ID of the authenticated user
             $task->save();
 
             return redirect('/task/page')->with("success", "task added successfully");
