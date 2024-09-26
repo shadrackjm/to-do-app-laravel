@@ -31,3 +31,5 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+Route::get('/admin/dashboard', [TaskController::class, 'admin'])
+->middleware(['auth','admin']);

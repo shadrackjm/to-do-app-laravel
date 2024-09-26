@@ -77,4 +77,7 @@ class TaskController extends Controller //control
         }
 
     }
+    public function admin(){
+        return view('admin.admindashboard');
+    }
 }
