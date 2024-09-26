@@ -13,7 +13,9 @@ class TaskController extends Controller //control
     }
     public function home(Request $request)
     {
-        $tasks = Task::all();
+        //fetch task associated with authenticated user only
+        //$tasks = Task::all();
+        $tasks = Task::where('user_id', Auth::user()->id)->get();
         return view("task-page", compact("tasks"));
         // return view("task-page",["tasks"=>$tasks]);
      }
