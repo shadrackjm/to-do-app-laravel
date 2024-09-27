@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller //control
 {
@@ -12,7 +13,13 @@ class TaskController extends Controller //control
     }
     public function home(Request $request)
     {
+
         $tasks = Task::where('user_id',auth()->user()->id)->get();
+
+        //fetch task associated with authenticated user only
+        //$tasks = Task::all();
+        $tasks = Task::where('user_id', Auth::user()->id)->get();
+
         return view("task-page", compact("tasks"));
         // return view("task-page",["tasks"=>$tasks]);
      }
@@ -30,12 +37,25 @@ class TaskController extends Controller //control
         ]);
 
         try {
+            //create a new task and associate with a authenticated user
             $task = new Task();
             $task->name = $request->task_name;
             $task->description = $request->task_description;
+            $task->user_id = Auth::id(); //set user_id to ID of the authenticated user
             $task->save();
 
-            return redirect('/task/page')->with("success", "task added successfully");
+
+             // Check if the user is an admin and redirect accordingly
+        if (Auth::user()->is_admin) {
+            return redirect('/admin/tasks')->with("success", "Task added successfully. Viewing all tasks as admin.");
+        } else
+        
+        {
+            return redirect('/task/page')->with("success", "Task added successfully.");
+        }
+
+
+            //return redirect('/task/page')->with("success", "task added successfully");
         } catch (\Exception $exception) {
             return redirect('/task/page')->with("error", $exception->getMessage());
         }
@@ -76,5 +96,8 @@ class TaskController extends Controller //control
             return redirect("/task/page")->with("error", $exception->getMessage());
         }
 
+    }
+    public function admin(){
+        return view('admin.admindashboard');
     }
 }

@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
@@ -40,3 +39,11 @@ Route::middleware('auth')->group(function () {
 Route::post('/update-task-status', [AuthenticatedSessionController::class, 'updateStatus']);
 
 require __DIR__.'/auth.php';
+Route::get('/admin/dashboard', [TaskController::class, 'admin'])
+->middleware(['auth','admin']);
+
+
+Route::middleware(['auth']) // Ensure the user is authenticated
+    ->group(function () {
+        Route::get('/admin/tasks', [AdminController::class, 'index'])->name('admin.tasks');
+    });
