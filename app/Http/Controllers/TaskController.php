@@ -40,7 +40,18 @@ class TaskController extends Controller //control
             $task->user_id = Auth::id(); //set user_id to ID of the authenticated user
             $task->save();
 
-            return redirect('/task/page')->with("success", "task added successfully");
+
+             // Check if the user is an admin and redirect accordingly
+        if (Auth::user()->is_admin) {
+            return redirect('/admin/tasks')->with("success", "Task added successfully. Viewing all tasks as admin.");
+        } else
+        
+        {
+            return redirect('/task/page')->with("success", "Task added successfully.");
+        }
+
+
+            //return redirect('/task/page')->with("success", "task added successfully");
         } catch (\Exception $exception) {
             return redirect('/task/page')->with("error", $exception->getMessage());
         }
