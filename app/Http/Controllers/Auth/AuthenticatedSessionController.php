@@ -36,7 +36,7 @@ class AuthenticatedSessionController extends Controller
 
         
 
-        return redirect()->intended(route('task.lists', absolute: false));
+        return redirect()->intended(route('dashboard', absolute: false));
     }
 
     /**
