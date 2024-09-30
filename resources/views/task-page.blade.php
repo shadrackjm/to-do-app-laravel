@@ -1,6 +1,13 @@
-@extends('layouts/app-layout')
-@section('main')
-    <div class="container">
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('task page') }}
+        </h2>
+    </x-slot>
+
+{{-- @extends('layouts/app-layout')
+@section('main') --}}
+    <div class="container pt-3">
         <div class="card">
             <div class="card-header">Laravel To do App <a href="/load/form" class="btn btn-success btn-sm float-end">Add new</a></div>
             @if (Session::has('success'))
@@ -90,4 +97,5 @@
     }
     
         </script>
-@endsection
+{{-- @endsection --}}
+    </x-app-layout>

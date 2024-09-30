@@ -44,10 +44,14 @@ Route::post('/update-task-status', [AuthenticatedSessionController::class, 'upda
 
 require __DIR__.'/auth.php';
 Route::get('/admin/dashboard', [TaskController::class, 'admin'])
-->middleware(['auth','admin']);
+->middleware(['auth','admin'])->name('admin.dashboard');
 
 
 Route::middleware(['auth']) // Ensure the user is authenticated
     ->group(function () {
         Route::get('/admin/tasks', [AdminController::class, 'index'])->name('admin.tasks');
     });
+    //also the above function can be written as follow
+    //Route::get('/admin/tasks', [AdminController::class, 'index'])->middleware('auth')->name('admin.tasks');
+     
+    

@@ -46,7 +46,7 @@ class TaskController extends Controller //control
 
 
              // Check if the user is an admin and redirect accordingly
-        if (Auth::user()->is_admin) {
+        if (Auth::user()->usertype == "admin") {
             return redirect('/admin/tasks')->with("success", "Task added successfully. Viewing all tasks as admin.");
         } else
         
@@ -79,7 +79,21 @@ class TaskController extends Controller //control
             $task->description = $request->task_description;
             $task->save();
 
+
+                   // Check if the user is an admin and redirect accordingly
+        if (Auth::user()->usertype == "admin") {
+            return redirect('/admin/tasks')->with("success", "Task  updating successfully. Viewing all tasks as admin.");
+        } else
+        
+        {
             return redirect("/task/page")->with("success", "successfully updated the your task");
+         }
+
+
+
+
+
+           
         } catch (\Exception $exception) {
             return redirect("/task/page")->with("error", $exception->getMessage());
         }
@@ -91,8 +105,19 @@ class TaskController extends Controller //control
         try {
             $task = Task::find($task_id);
             $task->delete();
-            return redirect("/task/page")->with("success", "successfully deleted the your task");
-        } catch (\Exception $exception) {
+          
+
+            if (Auth::user()->usertype == "admin") {
+                return redirect('/admin/tasks')->with("success", "Task  deleted successfully. Viewing all tasks as admin.");
+            } else
+            
+            {
+                return redirect("/task/page")->with("success", "successfully deleted the your task");
+             }
+    
+        
+        
+    }catch (\Exception $exception) {
             return redirect("/task/page")->with("error", $exception->getMessage());
         }
 
